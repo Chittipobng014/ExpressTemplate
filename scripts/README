@@ -1,0 +1,285 @@
+newsletter.orderbot.org
+
+---
+AWS EC2
+https://ap-southeast-1.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-1# // bchoii, aws-admin@kidotech.com
+https://858729031901.signin.aws.amazon.com/console // grab
+https://console.aws.amazon.com/console/home
+https://www.amazon.com/ap/signin
+---
+https://www.hover.com/control_panel/domain/orderbot.org/dns // orderbot
+https://www.hover.com/control_panel/domain/kidoapps.com/dns
+https://www.hover.com/control_panel/domain/kidopay.com/dns
+---
+Google Sign In
+https://console.developers.google.com/apis/credentials?project=orderbot // orderbot
+https://console.developers.google.com/apis/library?project=orderbot
+https://console.developers.google.com/projectselector/apis/library
+https://console.developers.google.com
+
+http://localhost:4200
+http://localhost:3001
+https://newsletter.orderbot.org
+
+---
+https://www.linode.com/docs/security/securing-your-server/
+http://m-schmidt.eu/2013/03/29/fix-locale-setting-on-ubuntu-ec2-instances/
+
+---
+https://itsfoss.com/apt-vs-apt-get-difference/798888321015
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt full-upgrade
+sudo apt autoremove -y
+
+#
+https://www.digitalocean.com/community/tutorials/how-to-upgrade-to-ubuntu-18-04
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get dist-upgrade
+sudo apt install update-manager-core
+sudo do-release-upgrade
+---
+sudo ln -fs /usr/share/zoneinfo/Asia/Singapore /etc/localtime
+sudo dpkg-reconfigure --frontend noninteractive tzdata
+
+#
+sudo dpkg-reconfigure tzdata
+Asia/Singapore
+
+---
+system maintenance
+
+show disk space
+df - disk space
+
+Glances
+#curl -L https://bit.ly/glances | sudo /bin/bash
+apt-get install glances
+glances
+
+apt-get install htop
+htop
+
+---
+NodeJS
+
+rm -rf /usr/local/{lib/node{,/.npm,_modules},bin,share/man}/npm*
+
+https://github.com/nodesource/distributions/blob/master/README.md
+curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install -y build-essential
+sudo apt-get install -y gcc g++ make
+
+## To install the Yarn package manager, run:
+curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update && sudo apt-get install yarn
+
+https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
+
+---
+Windows
+npm install --global --production windows-build-tools
+
+---
+PHP
+sudo apt install php7.2-cli -y
+sudo apt install hhvm -y
+
+---
+Puppeteer
+sudo apt-get install gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget -y
+
+// https://techoverflow.net/2018/06/05/how-to-fix-puppetteer-error-while-loading-shared-libraries-libx11-xcb-so-1-cannot-open-shared-object-file-no-such-file-or-directory/
+
+---
+PM2
+https://github.com/Unitech/pm2
+
+Ubuntu
+sudo npm install pm2 -g
+sudo pm2 startup
+
+---
+PostgreSQL
+
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-16-04
+
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib -y
+
+https://bchoii.github.io/passcode-generator/
+
+sudo -u postgres -i
+psql
+CREATE USER n8ijr2rw PASSWORD 'sfU1uKJkg7NrVymVPnFm0ZQP2btYNQ66';
+CREATE DATABASE ynb74n8s;
+\c ynb74n8s
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+\q
+exit
+
+update ormconfig.ts
+update ormconfig.prod.ts
+  host: "newsletter.orderbot.org",
+  username: "n8ijr2rw",
+  password: "sfU1uKJkg7NrVymVPnFm0ZQP2btYNQ66",
+  database: "ynb74n8s",
+
+sudo sed -i '$ a host    all             all             0.0.0.0/0               md5' /etc/postgresql/10/main/pg_hba.conf
+sudo sed "s/#listen_addresses/listen_addresses = '*'\n#listen_addresses/" /etc/postgresql/10/main/postgresql.conf -i
+sudo service postgresql restart
+systemctl status postgresql --no-pager
+
+#
+sudo nano +100 /etc/postgresql/10/main/pg_hba.conf
+sudo nano +59 /etc/postgresql/10/main/postgresql.conf
+
+---
+Lets Encrypt
+
+// https://certbot.eff.org/docs/install.html#certbot-auto
+
+wget https://dl.eff.org/certbot-auto
+chmod a+x ./certbot-auto
+sudo ./certbot-auto certonly --standalone --domains newsletter.orderbot.org --email bernard@kidotech.com --agree-tos --noninteractive --preferred-challenges=http --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+
+sudo crontab -e
+34 2 1 * * /home/ubuntu/certbot-auto renew --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+
+#
+sudo ./certbot-auto certonly --standalone --domains newsletter.orderbot.org --email bernard@kidotech.com --agree-tos --noninteractive --preferred-challenges=http --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install certbot 
+
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:certbot/certbot -y
+sudo apt update
+sudo apt upgrade -y
+sudo apt install certbot -y
+
+sudo certbot certonly --standalone --domains newsletter.orderbot.org --email bernard@kidotech.com --agree-tos --noninteractive --preferred-challenges=http --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+sudo certbot certonly --standalone --domains newsletter.orderbot.org --email bernard@kidotech.com --agree-tos --noninteractive --preferred-challenges=http
+
+sudo crontab -e
+30 2 1 * * /usr/bin/certbot renew --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+45 3 21 * * /usr/bin/certbot renew
+45 3 21 * * /usr/bin/certbot renew --standalone --domains newsletter.orderbot.org --email bernard@kidotech.com --agree-tos --noninteractive --preferred-challenges=http --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+@monthly /path/to/certbot-auto renew --standalone --domains newsletter.orderbot.org --email bernard@kidotech.com --agree-tos --noninteractive --preferred-challenges=http --pre-hook "pm2 stop all" --post-hook "pm2 start all"
+
+https://certbot.eff.org/lets-encrypt/ubuntuother-other
+https://certbot.eff.org/lets-encrypt/ubuntubionic-other
+https://certbot.eff.org/docs/using.html#certbot-commands
+https://startupnextdoor.com/how-to-obtain-and-renew-ssl-certs-with-lets-encrypt-on-node-js/
+
+##
+pm2 stop all
+/usr/bin/certbot renew
+pm2 start all
+---
+Deploy App
+
+> node dist.js
+---
+npm install pm2@latest -g
+pm2 update
+---
+https://www.digitalocean.com/community/tutorials/how-to-list-and-delete-iptables-firewall-rules
+https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands
+
+sudo apt-get install iptables-persistent
+
+sudo iptables -F
+sudo iptables -A INPUT -i lo -j ACCEPT
+sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+sudo iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
+sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 80 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 443 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -p tcp -s 132.147.120.42/32 --dport 5432 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -p tcp -s 132.147.120.42/32 --dport 27017 -m conntrack --ctstate NEW,ESTABLISHED -j ACCEPT
+sudo iptables -A INPUT -j DROP
+sudo iptables -L -v --line-numbers
+sudo netfilter-persistent save
+
+iptables -D INPUT 6
+iptables -D INPUT 6
+iptables -A INPUT -p tcp -s 13.229.73.64/32 --dport 27017 -j ACCEPT
+iptables -A INPUT -p tcp -s 172.26.8.252/32 --dport 27017 -j ACCEPT
+iptables -A INPUT -p tcp -s 132.147.120.42/32 --dport 27017 -j ACCEPT
+iptables -A INPUT -j DROP
+iptables -L -v --line-numbers
+pm2 restart all
+
+sudo iptables -D INPUT 6
+sudo iptables -L -v --line-numbers
+sudo iptables -A INPUT -j DROP
+
+apt-get install fail2ban -y
+cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+apt-get install iptables-persistent -y
+dpkg-reconfigure iptables-persistent
+
+#
+#sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+ifconfig
+netstat
+
+
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to 8080
+iptables -t nat -A PREROUTING -p tcp --dport 443 -j REDIRECT --to 8443
+iptables -L -vt nat
+
+allow db access
+iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+dpkg-reconfigure iptables-persistent
+
+block db access
+iptables -D INPUT -p tcp --dport 3306 -j ACCEPT
+iptables -D INPUT -p tcp --dport 27017 -j ACCEPT
+dpkg-reconfigure iptables-persistent
+
+#iptables -P INPUT DROP
+iptables -A INPUT -p tcp --dport 27017 -j ACCEPT
+iptables -A INPUT -p tcp --dport 3306 -j ACCEPT
+
+setup ip
+
+--
+https://docs.npmjs.com/updating-packages-downloaded-from-the-registry
+
+npm outdated -g --depth=0
+npm update -g <package_name>
+npm update -g
+
+npm outdated
+npm update
+
+npm install @types/node@latest --save-dev
+npm install ts-node@latest --save-dev
+npm install typescript@latest --save-dev
+npm install fs-extra@latest
+npm install google-auth-library@latest
+npm install jimp@latest
+
+sudo npm install ts-node@latest -g
+sudo npm install typescript@latest -g
+
+---
+parkway.qms.grab.com
+ec2-54-255-206-201.ap-southeast-1.compute.amazonaws.com
+Administrator
+&%8u=tU$wO5SpXrE2(4wKzhKXCX5FrJ.
+
+---
+

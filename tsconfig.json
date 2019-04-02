@@ -1,0 +1,30 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "es7", "es2017.object"],
+    "sourceMap": true,
+    "allowJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    // "rootDir": "./src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": false,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "preserveConstEnums": true,
+    // "suppressImplicitAnyIndexErrors": true,
+    // "diagnostics": true,
+    "skipLibCheck": true,
+    "downlevelIteration": true,
+    // "noUnusedParameters": true,
+    // "noUnusedLocals": true,
+    // "noImplicitReturns": true
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "include": ["./**/*"]
+}
